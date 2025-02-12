@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">ATM</string>
+
+    <string name="your_name">Your Name</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="gender">Gender</string>
+    <string name="agree_to_terms">I agree to the terms and conditions</string>
+    <string name="sign_up">Sign Up</string>
+
+    <string name="first_and_last_name">First and Last Name</string>
+    <string name="password_rule">Enter a strong password</string>
+    <string name="age">Age\n</string>
+    <string name="age_rule">Enter Your Age</string>
+</resources>

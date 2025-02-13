@@ -1,16 +1,30 @@
 <resources>
     <string name="app_name">ATM</string>
-
-    <string name="your_name">Your Name</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="confirm_password">Confirm Password</string>
-    <string name="gender">Gender</string>
-    <string name="agree_to_terms">I agree to the terms and conditions</string>
     <string name="sign_up">Sign Up</string>
-
-    <string name="first_and_last_name">First and Last Name</string>
     <string name="password_rule">Enter a strong password</string>
-    <string name="age">Age\n</string>
+    <string name="age">Age</string>
     <string name="age_rule">Enter Your Age</string>
+    <string name="sign_in">Sign In</string>
+    <string name="number">Number</string>
+    <string name="number_rule">Enter Your phone number</string>
+    <string name="username_rule">Enter Your Email</string>
+    <string name="error_invalid_password">Please enter valid password</string>
+    <string name="error_invalid_age">Please enter valid age</string>
+    <string name="error_invalid_number">Please enter valid number</string>
+    <string name="error_invalid_username">Please enter valid username</string>
+    <string name="error_unique_password">Password is not match</string>
+    <string name="message_successful">Successful</string>
+    <string name="title_dialog_message">Please wait ...</string>
+    <string name="title_dialog">Processing</string>
+    <string name="error_invalid_login">Invalid username or password!</string>
+    <string name="error_empty_age">Enter your age</string>
+    <string name="error_empty_number">Enter your number</string>
+    <string name="error_format_age">Enter correct format age</string>
+    <string name="error_format_number">Enter correct format number</string>
+    <string name="network_general_error">network error</string>
+    <string name="network_json_error">jason network error</string>
+    <string name="signUpTitle">Sign Up</string>
 </resources>

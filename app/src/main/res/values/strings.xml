@@ -13,4 +13,6 @@
     <string name="password_rule">Enter a strong password</string>
     <string name="age">Age\n</string>
     <string name="age_rule">Enter Your Age</string>
+    <string name="sign_in">Sign In</string>
+    <string name="email">Email\n</string>
 </resources>

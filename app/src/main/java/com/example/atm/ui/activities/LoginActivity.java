@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
         removeErrors();
 
         String username = binding.usernameEt.getText().toString().trim();
-        String password = binding.passwordEdt.getText().toString().trim();
+        String password = binding.passwordEt.getText().toString().trim();
 
         if (isInputValid(username, password)) {
             loginIfAccountExist(username, password);
@@ -69,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void removeErrors() {
         binding.usernameEt.setError(null);
-        binding.passwordEdt.setError(null);
+        binding.passwordEt.setError(null);
     }
 
     private boolean isInputValid(String username, String password) {
@@ -81,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         if (!Validator.isPasswordValid(password)) {
-            binding.passwordEdt.setError(getString(R.string.error_invalid_password));
+            binding.passwordEt.setError(getString(R.string.error_invalid_password));
             isValid = false;
         }
 

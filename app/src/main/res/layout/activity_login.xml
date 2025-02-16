@@ -4,108 +4,109 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activities.LoginActivity">
+    tools:context="ui.activity.LoginActivity">
 
-
-
-
+    <!-- Toolbar -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/blue"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:layout_constraintTop_toTopOf="parent"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:titleTextColor="@color/black" />
+        app:titleTextColor="@color/black"
+        app:title="Login"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-
-
+    <!-- Username TextView -->
     <TextView
-        android:id="@+id/username_vt"
-        android:layout_width="0dp"
+        android:id="@+id/username_tv"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="48dp"
         android:text="@string/username"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/username_et"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp" />
 
+    <!-- Username EditText -->
     <EditText
         android:id="@+id/username_et"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="16dp"
         android:importantForAutofill="no"
-        android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toTopOf="@+id/password_tv"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/username_tv"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username_vt" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp" />
 
+    <!-- Password TextView -->
     <TextView
         android:id="@+id/password_tv"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:text="@string/password"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/password_edt"
+        app:layout_constraintTop_toBottomOf="@id/username_et"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username_et" />
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp" />
 
+    <!-- Password EditText -->
     <EditText
-        android:id="@+id/password_edt"
+        android:id="@+id/password_et"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
         android:importantForAutofill="no"
         android:inputType="textPassword"
-        app:layout_constraintBottom_toTopOf="@+id/sign_in_btn"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/password_tv"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password_tv" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp" />
 
+    <!-- Sign In Button -->
     <Button
         android:id="@+id/sign_in_btn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/blue"
         android:padding="15dp"
         android:text="@string/sign_in"
         android:textAllCaps="false"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toTopOf="@+id/sign_up_btn"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/password_et"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password_edt" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp" />
 
+    <!-- Sign Up Button -->
     <Button
         android:id="@+id/sign_up_btn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/black"
+        android:text="@string/sign_up"
+        android:textAllCaps="false"
+        android:textColor="@color/blue"
+        app:layout_constraintTop_toBottomOf="@id/sign_in_btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="32dp"
-        android:backgroundTint="@color/black"
-        android:text="@string/sign_up"
-        android:textAllCaps="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sign_in_btn" />
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,28 +13,44 @@ public class User {
     @SerializedName("objectId")
     @NonNull
     private String id;
-//    @SerializedName("username")
     private String username;
     private String password;
     private int age;
-    private Number number;
+    private String phoneNumber;
+    private String accountNumber;
+
+    private String cardNumber;
+    private String cvv2;
+
+    private String expirationDate;
+    private Double currentBalance;
     @ColumnInfo(name = "session_token")
     private String sessionToken;
 
-    public User(@NonNull String id, String username, String password, int age, Number number) {
+    public User(@NonNull String id, String username, String password, int age, String phoneNumber,String accountNumber,String cardNumber,String cvv2,String expirationDate,Double currentBalance) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.age = age;
-        this.number = number;
+        this.cvv2 = cvv2;
+        this.phoneNumber = phoneNumber;
+        this.accountNumber = accountNumber;
+        this.cardNumber = cardNumber;
+        this.expirationDate = expirationDate;
+        this.currentBalance = currentBalance;
     }
 
     @Ignore
-    public User(String username, String password, int age, Number number) {
+    public User(String username, String password, int age, String phoneNumber,String accountNumber,String cardNumber,String cvv2,String expirationDate,Double currentBalance) {
         this.username = username;
         this.password = password;
         this.age = age;
-        this.number = number;
+        this.cvv2 = cvv2;
+        this.phoneNumber = phoneNumber;
+        this.accountNumber = accountNumber;
+        this.cardNumber = cardNumber;
+        this.expirationDate = expirationDate;
+        this.currentBalance = currentBalance;
     }
 
     @Ignore
@@ -68,11 +84,11 @@ public class User {
         this.age = age;
     }
 
-    public String getId() {
+    public @NonNull String getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(@NonNull String id) {
         this.id = id;
     }
 
@@ -80,13 +96,51 @@ public class User {
         return sessionToken;
     }
 
-    public Number getNumber() {
-        return number;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setNumber(Number number) {
-        this.number = number;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
+    public String getCardNumber() {
+        return cardNumber;
+    }
+
+    public void setCardNumber(String cardNumber) {
+        this.cardNumber = cardNumber;
+    }
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+    public String getCvv2() {
+        return cvv2;
+    }
+
+    public void setCvv2(String cvv2) {
+        this.cvv2 = cvv2;
+    }
+    public String getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(String expirationDate) {
+        this.expirationDate = expirationDate;
+    }
+
+    public Double getCurrentBalance() {
+        return currentBalance;
+    }
+
+    public void setCurrentBalance(Double currentBalance) {
+        this.currentBalance = currentBalance;
+    }
+
+
 
     public void setSessionToken(String sessionToken) {
         this.sessionToken = sessionToken;

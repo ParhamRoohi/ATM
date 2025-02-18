@@ -12,16 +12,14 @@ import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-
+import com.example.atm.R;
 import com.example.atm.databinding.ActivityMainBinding;
 import com.example.atm.preferences.PreferencesManager;
-
-
-import com.example.atm.R;
 
 public class MainActivity extends AppCompatActivity {
     private PreferencesManager preferencesManager;
     private ActivityMainBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,15 +28,27 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
-
+        setListeners();
         setSupportActionBar(binding.toolbar);
 
         preferencesManager = PreferencesManager.getInstance(this);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+
+    private void setListeners() {
+        binding.profileBtn.setOnClickListener(v -> onProfileClicked());
+        binding.transactionsBtn.setOnClickListener(v -> onTransactionsClicked());
+    }
+
+
+    private void onProfileClicked() {
+        Intent intent = new Intent(this, ProfileActivity.class);
+        startActivity(intent);
+    }
+
+    private void onTransactionsClicked() {
+        Intent intent = new Intent(this, AddTransactionActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -64,5 +74,11 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);
         finishAffinity();
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

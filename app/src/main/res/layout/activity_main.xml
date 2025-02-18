@@ -19,4 +19,26 @@
         app:titleTextColor="@color/black"
         android:fitsSystemWindows="true" />
 
+
+    <Button
+        android:id="@+id/profile_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/profile_btn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/transactions_btn"
+        />
+
+    <Button
+        android:id="@+id/transactions_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/transactions_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/profile_btn"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

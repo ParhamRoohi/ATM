@@ -1,7 +1,7 @@
 package com.example.atm.ui.activities;
 
 import static com.example.atm.preferences.PreferencesManager.PREF_KEY_AGE;
-import static com.example.atm.preferences.PreferencesManager.PREF_KEY_NUMBER;
+import static com.example.atm.preferences.PreferencesManager.PREF_KEY_PHONE_NUMBER;
 import static com.example.atm.preferences.PreferencesManager.PREF_KEY_PASSWORD;
 import static com.example.atm.preferences.PreferencesManager.PREF_KEY_USERNAME;
 
@@ -49,8 +49,14 @@ public class SignUpActivity extends AppCompatActivity {
     private User createUserObjectFromInputs() {
         String username = binding.usernameEt.getText().toString().trim();
         String password = binding.passwordEt.getText().toString().trim();
+        String accountNumber = binding.accountNumberEt.getText().toString().trim();
+        String cardNumber = binding.cardNumberEt.getText().toString().trim();
+        String cvv2 = binding.cvv2Et.getText().toString().trim();
+        String expire = binding.expireDateEt.getText().toString().trim();
+        Double balance = Double.parseDouble(binding.currentBalanceEt.getText().toString().trim());
+
         int age = 0;
-        Number number = 0;
+        String phoneNumber = "";
 
         try {
             age = Integer.parseInt(binding.ageEt.getText().toString().trim());
@@ -59,12 +65,12 @@ public class SignUpActivity extends AppCompatActivity {
         }
 
         try {
-            number = Integer.parseInt(binding.numberEt.getText().toString().trim());
+            phoneNumber = binding.numberEt.getText().toString().trim();
         } catch (NumberFormatException e) {
             binding.numberEt.setError(getString(R.string.error_format_number));
         }
 
-        return new User(username, password, age, number);
+        return new User(username, password, age, phoneNumber, accountNumber, cardNumber, cvv2,expire,balance);
     }
 
     private boolean isUserValid() {
@@ -123,7 +129,7 @@ public class SignUpActivity extends AppCompatActivity {
         preferencesManager.put(PREF_KEY_USERNAME, user.getUsername());
         preferencesManager.put(PREF_KEY_PASSWORD, user.getPassword());
         preferencesManager.put(PREF_KEY_AGE, user.getAge());
-        preferencesManager.put(PREF_KEY_NUMBER, user.getNumber());
+        preferencesManager.put(PREF_KEY_PHONE_NUMBER, user.getPhoneNumber());
     }
 
     private void removeErrors() {

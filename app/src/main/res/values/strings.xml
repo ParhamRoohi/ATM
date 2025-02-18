@@ -27,4 +27,32 @@
     <string name="network_general_error">network error</string>
     <string name="network_json_error">jason network error</string>
     <string name="signUpTitle">Sign Up</string>
+    <string name="current_balance">Current Balance\n</string>
+    <string name="cvv2">Cvv2</string>
+    <string name="account_number">Account Number</string>
+    <string name="card_number">Card Number</string>
+    <string name="profile_btn">Profile</string>
+    <string name="transactions_btn">Transactions</string>
+    <string name="profileTitle">Profile</string>
+    <string name="transactionsTitle">Transaction</string>
+    <string name="add_transactions_btn">Add</string>
+    <string name="choose_type_transaction">Choose Type\n</string>
+    <string name="accept">Accept</string>
+    <string name="cancel">Cancel</string>
+    <string name="balance">Balance</string>
+    <string name="enter_balance">Enter Balance</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="origin_account">"Origin Account "</string>
+    <string name="enter_origin_account">Enter Origin Account Number</string>
+    <string name="destination_card">"Destination card "</string>
+    <string name="enter_destination_card">Destination Card Number\n</string>
+    <string name="cvv2_tv">Cvv2</string>
+    <string name="enter_cvv2_number">"Enter Cvv2 "</string>
+    <string name="expiration_tv">Expiration Date</string>
+    <string name="enter_expiration">"Enter Epiration Date "</string>
+    <string name="save_btn">Save</string>
+    <string-array name="transaction_types">
+        <item>Withdraw</item>
+        <item>CTC</item>
+    </string-array>
 </resources>

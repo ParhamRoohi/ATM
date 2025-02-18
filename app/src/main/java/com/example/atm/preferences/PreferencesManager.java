@@ -12,7 +12,13 @@ public class PreferencesManager {
     public static final String PREF_KEY_USERNAME = "username";
     public static final String PREF_KEY_PASSWORD = "password";
     public static final String PREF_KEY_AGE = "age";
-    public static final String PREF_KEY_NUMBER = "number";
+    public static final String PREF_KEY_PHONE_NUMBER = "phoneNumber";
+    public static final String PREF_KEY_CARD_NUMBER = "cardNumber";
+    public static final String PREF_KEY_ACCOUNT_NUMBER = "accountNumber";
+    public static final String PREF_KEY_CVV2 = "Cvv2";
+    public static final String PREF_KEY_EXPIRATION_DATE = "expirationDate";
+    public static final String PREF_KEY_CURRENT_BALANCE = "balance";
+
     public static final String PREF_KEY_IS_LOGIN = "is_login";
 
     private static PreferencesManager preferencesManager;

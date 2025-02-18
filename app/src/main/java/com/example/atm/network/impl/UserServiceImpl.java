@@ -71,7 +71,7 @@ public class UserServiceImpl {
                     received.setPassword(user.getPassword());
                     received.setUsername(user.getUsername());
                     received.setAge(user.getAge());
-                    received.setNumber(user.getNumber());
+                    received.setPhoneNumber(user.getPhoneNumber());
                     resultListener.onSuccess(received);
                     return;
                 }

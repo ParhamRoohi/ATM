@@ -1,9 +1,14 @@
 package com.example.atm.ui.activities;
 
+import static com.example.atm.preferences.PreferencesManager.PREF_KEY_ACCOUNT_NUMBER;
 import static com.example.atm.preferences.PreferencesManager.PREF_KEY_AGE;
+import static com.example.atm.preferences.PreferencesManager.PREF_KEY_CARD_NUMBER;
+import static com.example.atm.preferences.PreferencesManager.PREF_KEY_CURRENT_BALANCE;
+import static com.example.atm.preferences.PreferencesManager.PREF_KEY_CVV2;
+import static com.example.atm.preferences.PreferencesManager.PREF_KEY_EXPIRATION_DATE;
 import static com.example.atm.preferences.PreferencesManager.PREF_KEY_IS_LOGIN;
-import static com.example.atm.preferences.PreferencesManager.PREF_KEY_NUMBER;
 import static com.example.atm.preferences.PreferencesManager.PREF_KEY_PASSWORD;
+import static com.example.atm.preferences.PreferencesManager.PREF_KEY_PHONE_NUMBER;
 import static com.example.atm.preferences.PreferencesManager.PREF_KEY_USERNAME;
 
 import android.app.ProgressDialog;
@@ -26,7 +31,7 @@ import com.example.atm.utils.Validator;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class LoginActivity extends AppCompatActivity {
+public class  LoginActivity extends AppCompatActivity {
     public static final String PREF_KEY_CURRENT_USER = "current_user";
     private ProgressDialog dialog;
     private UserServiceImpl userService;
@@ -92,12 +97,18 @@ public class LoginActivity extends AppCompatActivity {
         showDialog();
 
         int savedAge = preferencesManager.get(PREF_KEY_AGE, 0);
-        Number savedNumber = preferencesManager.get(PREF_KEY_NUMBER, 0);
+        String savedPhoneNumber = preferencesManager.get(PREF_KEY_PHONE_NUMBER, "");
+        String savedCardNumber = preferencesManager.get(PREF_KEY_CARD_NUMBER, "");
+        String savedAccountNumber = preferencesManager.get(PREF_KEY_ACCOUNT_NUMBER, "");
+        String savedCvv2 = preferencesManager.get(PREF_KEY_CVV2, "");
+        String savedExpirationDate = preferencesManager.get(PREF_KEY_EXPIRATION_DATE, "");
+        Double savedCurrentBalance= preferencesManager.get(PREF_KEY_CURRENT_BALANCE, 0.0);
+
 
         if (!isInputValid(username, password)) {
             return;
         }
-        User inputUser = new User(username, password, savedAge, savedNumber);
+        User inputUser = new User(username, password, savedAge, savedPhoneNumber,savedAccountNumber,savedCardNumber,savedCvv2,savedExpirationDate,savedCurrentBalance);
         userService.loginUser(inputUser, new ResultListener<User>() {
             @Override
             public void onSuccess(User user) {

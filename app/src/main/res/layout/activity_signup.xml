@@ -160,6 +160,113 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/number_tv" />
 
+            <TextView
+                android:id="@+id/current_balance_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/current_balance"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/number_et" />
+
+
+            <EditText
+                android:id="@+id/current_balance_et"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:importantForAutofill="no"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/current_balance_tv" />
+            <TextView
+                android:id="@+id/cvv2_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/cvv2"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/current_balance_et" />
+
+
+            <EditText
+                android:id="@+id/cvv2_et"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:importantForAutofill="no"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cvv2_tv" />
+
+            <TextView
+                android:id="@+id/account_number_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/account_number"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cvv2_et" />
+
+
+            <EditText
+                android:id="@+id/account_number_et"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:importantForAutofill="no"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/account_number_tv" />
+
+
+            <TextView
+                android:id="@+id/card_number_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/card_number"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/account_number_et" />
+
+
+            <EditText
+                android:id="@+id/card_number_et"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:importantForAutofill="no"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/card_number_tv"
+                  />
+
+            <TextView
+                android:id="@+id/expire_date_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/card_number"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/card_number_et" />
+
+
+            <EditText
+                android:id="@+id/expire_date_et"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:importantForAutofill="no"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/expire_date_tv"
+                app:layout_constraintBottom_toBottomOf="parent"  />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

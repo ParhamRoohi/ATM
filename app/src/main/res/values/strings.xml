@@ -51,6 +51,9 @@
     <string name="expiration_tv">Expiration Date</string>
     <string name="enter_expiration">"Enter Epiration Date "</string>
     <string name="save_btn">Save</string>
+    <string name="error_invalid_date_format">"Date type error enter correct format "</string>
+    <string name="expire_date">Expiration Date</string>
+    <string name="transaction_save_to_db">"Save to database "</string>
     <string-array name="transaction_types">
         <item>Withdraw</item>
         <item>CTC</item>

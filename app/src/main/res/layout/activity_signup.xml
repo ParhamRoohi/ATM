@@ -249,7 +249,7 @@
                 android:id="@+id/expire_date_tv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/card_number"
+                android:text="@string/expire_date"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -2,26 +2,26 @@ package com.example.atm.data.models;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.Ignore;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.Date;
-
-public class Transaction implements Serializable {
-
-//    @Entity(
-//            foreignKeys = @ForeignKey(
-//                    entity = User.class,
-//                    parentColumns = "id",
-//                    childColumns = "publisherId",
-//                    onDelete = ForeignKey.CASCADE
-//            ),
-//            indices = {@Index(value = "publisherId")}
-//    )
-
+@Entity(
+        foreignKeys = @ForeignKey(
+                entity = User.class,
+                parentColumns = "id",
+                childColumns = "userId",
+                onDelete = ForeignKey.CASCADE
+        ),
+        indices = {@Index(value = "userId")}
+)
+public class Transaction implements Serializable, Comparable<Transaction> {
 
     @PrimaryKey()
     @SerializedName("objectId")
@@ -29,18 +29,17 @@ public class Transaction implements Serializable {
     private String id;
     private String phoneNumber;
     private String accountNumber;
-
     private String userId;
     private String cardNumber;
     private String cvv2;
-
-    private String expirationDate;
+    private Date expirationDate;
     private Double currentBalance;
+    private String transactionType;
     @ColumnInfo(name = "session_token")
     private String sessionToken;
 
 
-    public Transaction(@NonNull String id, String phoneNumber, String accountNumber, String cardNumber, String userId, String cvv2, String expirationDate, Double currentBalance, String sessionToken) {
+    public Transaction(@NonNull String id, String phoneNumber, String accountNumber, String cardNumber, String userId, String cvv2, Date expirationDate, Double currentBalance, String sessionToken,String transactionType) {
         this.id = id;
         this.phoneNumber = phoneNumber;
         this.accountNumber = accountNumber;
@@ -50,11 +49,11 @@ public class Transaction implements Serializable {
         this.expirationDate = expirationDate;
         this.currentBalance = currentBalance;
         this.sessionToken = sessionToken;
-
+        this.transactionType = transactionType;
     }
 
     @Ignore
-    public Transaction(String phoneNumber, String accountNumber, String cardNumber, String userId, String cvv2, String expirationDate, Double currentBalance, String sessionToken) {
+    public Transaction(String phoneNumber, String accountNumber, String cardNumber, String userId, String cvv2, Date expirationDate, Double currentBalance, String sessionToken,String transactionType) {
         this.phoneNumber = phoneNumber;
         this.accountNumber = accountNumber;
         this.cardNumber = cardNumber;
@@ -63,6 +62,7 @@ public class Transaction implements Serializable {
         this.expirationDate = expirationDate;
         this.currentBalance = currentBalance;
         this.sessionToken = sessionToken;
+        this.transactionType = transactionType;
     }
 
     public String getPhoneNumber() {
@@ -113,11 +113,11 @@ public class Transaction implements Serializable {
         this.id = id;
     }
 
-    public String getExpirationDate() {
+    public Date getExpirationDate() {
         return expirationDate;
     }
 
-    public void setExpirationDate(String expirationDate) {
+    public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
     }
 
@@ -133,14 +133,22 @@ public class Transaction implements Serializable {
         return sessionToken;
     }
 
+    public String getTransactionType() {
+        return transactionType;
+    }
+
+    public void setTransactionType(String transactionType) {
+        this.transactionType = transactionType;
+    }
+
     public void setSessionToken(String sessionToken) {
         this.sessionToken = sessionToken;
     }
 
-//    @Override
-//    public int compareTo(Transaction transaction) {
-//        return 0;
-//    }
+    @Override
+    public int compareTo(Transaction transaction) {
+        return 0;
+    }
 
     //    @SuppressLint("SimpleDateFormat")
 //    public String getFormattedModifiedDate() {
@@ -180,7 +188,7 @@ public class Transaction implements Serializable {
 //    @NonNull
 //    @Override
 //    public String toString() {
-//        return "Title: " + title +
+//        return "Type: " + type +
 //                "\nContent: " + content +
 //                "\nCategory: " + category +
 //                "\nModified Date: " + getFormattedModifiedDate();

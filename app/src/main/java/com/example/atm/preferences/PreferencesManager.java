@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
 
+import java.util.Date;
+
 public class PreferencesManager {
 
     private static final String PREF_FILE_NAME = "com.example.atm";
@@ -21,7 +23,7 @@ public class PreferencesManager {
 
     public static final String PREF_KEY_IS_LOGIN = "is_login";
 
-    private static PreferencesManager preferencesManager;
+    public static PreferencesManager preferencesManager;
 
     private final SharedPreferences sharedPreferences;
 
@@ -95,6 +97,10 @@ public class PreferencesManager {
     public <T> void putObj(String key, T t) {
         String json = gson.toJson(t);
         sharedPreferences.edit().putString(key, json).apply();
+    }
+    public <T> T getObj(String key, Class<T> t) {
+        String jsonPreferences = sharedPreferences.getString(key, "");
+        return gson.fromJson(jsonPreferences, t);
     }
 
 }

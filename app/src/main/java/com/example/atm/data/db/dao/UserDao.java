@@ -16,4 +16,8 @@ public interface UserDao {
 
     @Query("SELECT * FROM User WHERE username = :username AND password = :password")
     List<User> getUserBasedOnCredentials(String username, String password);
+
+
+    @Query("SELECT currentBalance FROM User WHERE username = :username")
+    Double getCurrentBalanceByUsername(String username);
 }

@@ -28,10 +28,12 @@ import com.example.atm.network.impl.UserServiceImpl;
 import com.example.atm.preferences.PreferencesManager;
 import com.example.atm.utils.Validator;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class  LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
     public static final String PREF_KEY_CURRENT_USER = "current_user";
     private ProgressDialog dialog;
     private UserServiceImpl userService;
@@ -101,20 +103,47 @@ public class  LoginActivity extends AppCompatActivity {
         String savedCardNumber = preferencesManager.get(PREF_KEY_CARD_NUMBER, "");
         String savedAccountNumber = preferencesManager.get(PREF_KEY_ACCOUNT_NUMBER, "");
         String savedCvv2 = preferencesManager.get(PREF_KEY_CVV2, "");
-        String savedExpirationDate = preferencesManager.get(PREF_KEY_EXPIRATION_DATE, "");
-        Double savedCurrentBalance= preferencesManager.get(PREF_KEY_CURRENT_BALANCE, 0.0);
+        String savedExpirationDateStr = preferencesManager.get(PREF_KEY_EXPIRATION_DATE, "");
+        Double savedCurrentBalance = preferencesManager.get(PREF_KEY_CURRENT_BALANCE, 0.0);
 
+        Date savedExpirationDate = null;
+        try {
+            if (!savedExpirationDateStr.isEmpty()) {
+                savedExpirationDate = new SimpleDateFormat("yy/MM/dd").parse(savedExpirationDateStr);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            showToastMessage("Error: Invalid expiration date format");
+            return;
+        }
+
+//        if (savedExpirationDate == null || savedCurrentBalance == null) {
+//            showToastMessage("Error: Invalid user data");
+//            return;
+//        }
 
         if (!isInputValid(username, password)) {
             return;
         }
-        User inputUser = new User(username, password, savedAge, savedPhoneNumber,savedAccountNumber,savedCardNumber,savedCvv2,savedExpirationDate,savedCurrentBalance);
+
+        User inputUser = new User(
+                username,
+                password,
+                savedAge,
+                savedPhoneNumber,
+                savedAccountNumber,
+                savedCardNumber,
+                savedCvv2,
+                savedExpirationDate,
+                savedCurrentBalance
+        );
+
         userService.loginUser(inputUser, new ResultListener<User>() {
             @Override
             public void onSuccess(User user) {
                 insertUserToDb(user);
-                preferencesManager.get(PREF_KEY_USERNAME, username);
-                preferencesManager.get(PREF_KEY_PASSWORD, password);
+                preferencesManager.put(PREF_KEY_USERNAME, username);
+                preferencesManager.put(PREF_KEY_PASSWORD, password);
             }
 
             @Override
@@ -169,6 +198,7 @@ public class  LoginActivity extends AppCompatActivity {
             }
         }));
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

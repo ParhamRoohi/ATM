@@ -7,11 +7,13 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
+import com.example.atm.data.db.dao.TransactionDao;
 import com.example.atm.data.db.dao.UserDao;
+import com.example.atm.data.models.Transaction;
 import com.example.atm.data.models.User;
 
 
-    @Database(entities = {User.class}, version = 1)
+    @Database(entities = {User.class, Transaction.class}, version = 1)
     @TypeConverters({TypeConverter.class})
     public abstract class DbManager extends RoomDatabase {
 
@@ -21,7 +23,7 @@ import com.example.atm.data.models.User;
 
         public abstract UserDao userDao();
 
-
+        public abstract TransactionDao transactionDao();
         public static synchronized DbManager getInstance(Context context) {
             if (instance == null) {
                 instance = Room.databaseBuilder(context, DbManager.class, DB_NAME)

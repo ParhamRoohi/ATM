@@ -1,6 +1,11 @@
 package com.example.atm.ui.activities;
 
+import static com.example.atm.preferences.PreferencesManager.PREF_KEY_ACCOUNT_NUMBER;
 import static com.example.atm.preferences.PreferencesManager.PREF_KEY_AGE;
+import static com.example.atm.preferences.PreferencesManager.PREF_KEY_CARD_NUMBER;
+import static com.example.atm.preferences.PreferencesManager.PREF_KEY_CURRENT_BALANCE;
+import static com.example.atm.preferences.PreferencesManager.PREF_KEY_CVV2;
+import static com.example.atm.preferences.PreferencesManager.PREF_KEY_EXPIRATION_DATE;
 import static com.example.atm.preferences.PreferencesManager.PREF_KEY_PHONE_NUMBER;
 import static com.example.atm.preferences.PreferencesManager.PREF_KEY_PASSWORD;
 import static com.example.atm.preferences.PreferencesManager.PREF_KEY_USERNAME;
@@ -23,6 +28,10 @@ import com.example.atm.databinding.ActivitySignupBinding;
 import com.example.atm.network.impl.UserServiceImpl;
 import com.example.atm.preferences.PreferencesManager;
 import com.example.atm.utils.Validator;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class SignUpActivity extends AppCompatActivity {
@@ -69,8 +78,15 @@ public class SignUpActivity extends AppCompatActivity {
         } catch (NumberFormatException e) {
             binding.numberEt.setError(getString(R.string.error_format_number));
         }
-
-        return new User(username, password, age, phoneNumber, accountNumber, cardNumber, cvv2,expire,balance);
+        Date expirationDate = null;
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yy/MM/dd");
+            expirationDate = dateFormat.parse(expire);
+        } catch (ParseException e) {
+            binding.expireDateEt.setError(getString(R.string.error_invalid_date_format));
+            return null;
+        }
+        return new User(username, password, age, phoneNumber, accountNumber, cardNumber, cvv2,expirationDate,balance);
     }
 
     private boolean isUserValid() {
@@ -130,6 +146,11 @@ public class SignUpActivity extends AppCompatActivity {
         preferencesManager.put(PREF_KEY_PASSWORD, user.getPassword());
         preferencesManager.put(PREF_KEY_AGE, user.getAge());
         preferencesManager.put(PREF_KEY_PHONE_NUMBER, user.getPhoneNumber());
+        preferencesManager.put(PREF_KEY_ACCOUNT_NUMBER, user.getAccountNumber());
+        preferencesManager.put(PREF_KEY_CARD_NUMBER, user.getCardNumber());
+        preferencesManager.put(PREF_KEY_CVV2, user.getCvv2());
+        preferencesManager.put(PREF_KEY_EXPIRATION_DATE, new SimpleDateFormat("yy/MM/dd").format(user.getExpirationDate()));
+        preferencesManager.put(PREF_KEY_CURRENT_BALANCE, user.getCurrentBalance());
     }
 
     private void removeErrors() {

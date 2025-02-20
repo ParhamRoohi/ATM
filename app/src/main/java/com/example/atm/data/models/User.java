@@ -1,5 +1,7 @@
 package com.example.atm.data.models;
 
+import android.annotation.SuppressLint;
+
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -7,8 +9,14 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 @Entity
-public class User {
+public class User implements Serializable, Comparable<User>{
     @PrimaryKey
     @SerializedName("objectId")
     @NonNull
@@ -18,16 +26,14 @@ public class User {
     private int age;
     private String phoneNumber;
     private String accountNumber;
-
     private String cardNumber;
     private String cvv2;
-
-    private String expirationDate;
+    private Date expirationDate;
     private Double currentBalance;
     @ColumnInfo(name = "session_token")
     private String sessionToken;
 
-    public User(@NonNull String id, String username, String password, int age, String phoneNumber,String accountNumber,String cardNumber,String cvv2,String expirationDate,Double currentBalance) {
+    public User(@NonNull String id, String username, String password, int age, String phoneNumber,String accountNumber,String cardNumber,String cvv2,Date expirationDate,Double currentBalance) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -41,7 +47,7 @@ public class User {
     }
 
     @Ignore
-    public User(String username, String password, int age, String phoneNumber,String accountNumber,String cardNumber,String cvv2,String expirationDate,Double currentBalance) {
+    public User(String username, String password, int age, String phoneNumber,String accountNumber,String cardNumber,String cvv2,Date expirationDate,Double currentBalance) {
         this.username = username;
         this.password = password;
         this.age = age;
@@ -124,11 +130,15 @@ public class User {
     public void setCvv2(String cvv2) {
         this.cvv2 = cvv2;
     }
-    public String getExpirationDate() {
+    public Date getExpirationDate() {
         return expirationDate;
     }
+    @SuppressLint("SimpleDateFormat")
+    public String getFormattedModifiedDate() {
+        return new SimpleDateFormat("yy/MM/dd").format(expirationDate);
+    }
 
-    public void setExpirationDate(String expirationDate) {
+    public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
     }
 
@@ -141,11 +151,14 @@ public class User {
     }
 
 
-
     public void setSessionToken(String sessionToken) {
         this.sessionToken = sessionToken;
     }
 
+    @Override
+    public int compareTo(User o) {
+        return o.expirationDate.compareTo(this.expirationDate);
+    }
 
     @NonNull
     @Override

@@ -1,6 +1,7 @@
 package com.example.atm.data.models;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
@@ -12,11 +13,10 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 @Entity
-public class User implements Serializable, Comparable<User>{
+public class User implements Serializable, Comparable<User> {
     @PrimaryKey
     @SerializedName("objectId")
     @NonNull
@@ -29,11 +29,11 @@ public class User implements Serializable, Comparable<User>{
     private String cardNumber;
     private String cvv2;
     private Date expirationDate;
-    private Double currentBalance;
+    private Long currentBalance;
     @ColumnInfo(name = "session_token")
     private String sessionToken;
 
-    public User(@NonNull String id, String username, String password, int age, String phoneNumber,String accountNumber,String cardNumber,String cvv2,Date expirationDate,Double currentBalance) {
+    public User(@NonNull String id, String username, String password, int age, String phoneNumber, String accountNumber, String cardNumber, String cvv2, Date expirationDate, Long currentBalance) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -47,7 +47,7 @@ public class User implements Serializable, Comparable<User>{
     }
 
     @Ignore
-    public User(String username, String password, int age, String phoneNumber,String accountNumber,String cardNumber,String cvv2,Date expirationDate,Double currentBalance) {
+    public User(String username, String password, int age, String phoneNumber, String accountNumber, String cardNumber, String cvv2, Date expirationDate, Long currentBalance) {
         this.username = username;
         this.password = password;
         this.age = age;
@@ -57,6 +57,20 @@ public class User implements Serializable, Comparable<User>{
         this.cardNumber = cardNumber;
         this.expirationDate = expirationDate;
         this.currentBalance = currentBalance;
+    }
+
+    @Ignore
+    public User(String username, String password, int age, String phoneNumber, String accountNumber, String cardNumber, String cvv2, Date expirationDate, Long currentBalance, String sessionToken) {
+        this.username = username;
+        this.password = password;
+        this.age = age;
+        this.cvv2 = cvv2;
+        this.phoneNumber = phoneNumber;
+        this.accountNumber = accountNumber;
+        this.cardNumber = cardNumber;
+        this.expirationDate = expirationDate;
+        this.currentBalance = currentBalance;
+        this.sessionToken = sessionToken;
     }
 
     @Ignore
@@ -109,6 +123,7 @@ public class User implements Serializable, Comparable<User>{
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
     public String getCardNumber() {
         return cardNumber;
     }
@@ -116,6 +131,7 @@ public class User implements Serializable, Comparable<User>{
     public void setCardNumber(String cardNumber) {
         this.cardNumber = cardNumber;
     }
+
     public String getAccountNumber() {
         return accountNumber;
     }
@@ -123,6 +139,7 @@ public class User implements Serializable, Comparable<User>{
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
     }
+
     public String getCvv2() {
         return cvv2;
     }
@@ -130,9 +147,11 @@ public class User implements Serializable, Comparable<User>{
     public void setCvv2(String cvv2) {
         this.cvv2 = cvv2;
     }
+
     public Date getExpirationDate() {
         return expirationDate;
     }
+
     @SuppressLint("SimpleDateFormat")
     public String getFormattedModifiedDate() {
         return new SimpleDateFormat("yy/MM/dd").format(expirationDate);
@@ -142,12 +161,13 @@ public class User implements Serializable, Comparable<User>{
         this.expirationDate = expirationDate;
     }
 
-    public Double getCurrentBalance() {
+    public Long getCurrentBalance() {
         return currentBalance;
     }
 
-    public void setCurrentBalance(Double currentBalance) {
+    public void setCurrentBalance(Long currentBalance) {
         this.currentBalance = currentBalance;
+
     }
 
 
@@ -163,7 +183,7 @@ public class User implements Serializable, Comparable<User>{
     @NonNull
     @Override
     public String toString() {
-        return   "username= " + username
+        return "username= " + username
                 + '\n' + "age= " + age;
     }
 

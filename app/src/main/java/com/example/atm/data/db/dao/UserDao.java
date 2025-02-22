@@ -4,6 +4,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.example.atm.data.models.User;
 
@@ -17,7 +18,12 @@ public interface UserDao {
     @Query("SELECT * FROM User WHERE username = :username AND password = :password")
     List<User> getUserBasedOnCredentials(String username, String password);
 
+    @Query("SELECT session_token FROM User WHERE id = :userId")
+    String getSessionTokenById(String userId);
 
-    @Query("SELECT currentBalance FROM User WHERE username = :username")
-    Double getCurrentBalanceByUsername(String username);
+    @Query("SELECT * FROM User WHERE id = :userId")
+    User getUserById(String userId);
+
+    @Update
+    int update(User user);
 }

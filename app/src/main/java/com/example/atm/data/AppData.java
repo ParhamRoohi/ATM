@@ -12,7 +12,6 @@ public class AppData extends Application {
     private static AppData appData;
 
     private User currentUser;
-    private TextToSpeech textToSpeech;
 
     public static AppData getInstance() {
         return appData;
@@ -22,20 +21,7 @@ public class AppData extends Application {
     public void onCreate() {
         super.onCreate();
         appData = this;
-        textToSpeech = new TextToSpeech(this, status -> {
-            if (status == TextToSpeech.SUCCESS) {
-                int result = textToSpeech.setLanguage(Locale.US);
-                if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                    Log.e("TTS", "Language not supported");
-                }
-            } else {
-                Log.e("TTS", "Initialization failed");
-            }
-        });
-    }
 
-    public TextToSpeech getTextToSpeech() {
-        return textToSpeech;
     }
 
     public User getCurrentUser() {

@@ -4,15 +4,17 @@ import static com.example.atm.preferences.PreferencesManager.PREF_KEY_ACCOUNT_NU
 import static com.example.atm.preferences.PreferencesManager.PREF_KEY_AGE;
 import static com.example.atm.preferences.PreferencesManager.PREF_KEY_CARD_NUMBER;
 import static com.example.atm.preferences.PreferencesManager.PREF_KEY_CURRENT_BALANCE;
+import static com.example.atm.preferences.PreferencesManager.PREF_KEY_CURRENT_USER;
 import static com.example.atm.preferences.PreferencesManager.PREF_KEY_CVV2;
 import static com.example.atm.preferences.PreferencesManager.PREF_KEY_EXPIRATION_DATE;
-import static com.example.atm.preferences.PreferencesManager.PREF_KEY_PHONE_NUMBER;
+import static com.example.atm.preferences.PreferencesManager.PREF_KEY_ID;
 import static com.example.atm.preferences.PreferencesManager.PREF_KEY_PASSWORD;
+import static com.example.atm.preferences.PreferencesManager.PREF_KEY_PHONE_NUMBER;
+import static com.example.atm.preferences.PreferencesManager.PREF_KEY_TOKEN;
 import static com.example.atm.preferences.PreferencesManager.PREF_KEY_USERNAME;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -62,22 +64,10 @@ public class SignUpActivity extends AppCompatActivity {
         String cardNumber = binding.cardNumberEt.getText().toString().trim();
         String cvv2 = binding.cvv2Et.getText().toString().trim();
         String expire = binding.expireDateEt.getText().toString().trim();
-        Double balance = Double.parseDouble(binding.currentBalanceEt.getText().toString().trim());
+        Long balance = Long.parseLong(binding.currentBalanceEt.getText().toString().trim());
 
-        int age = 0;
-        String phoneNumber = "";
-
-        try {
-            age = Integer.parseInt(binding.ageEt.getText().toString().trim());
-        } catch (NumberFormatException e) {
-            binding.ageEt.setError(getString(R.string.error_format_age));
-        }
-
-        try {
-            phoneNumber = binding.numberEt.getText().toString().trim();
-        } catch (NumberFormatException e) {
-            binding.numberEt.setError(getString(R.string.error_format_number));
-        }
+        String phoneNumber = binding.numberEt.getText().toString().trim();
+        Integer age = Integer.parseInt(binding.ageEt.getText().toString().trim());
         Date expirationDate = null;
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yy/MM/dd");
@@ -86,27 +76,34 @@ public class SignUpActivity extends AppCompatActivity {
             binding.expireDateEt.setError(getString(R.string.error_invalid_date_format));
             return null;
         }
-        return new User(username, password, age, phoneNumber, accountNumber, cardNumber, cvv2,expirationDate,balance);
+        return new User(username, password, age, phoneNumber, accountNumber, cardNumber, cvv2, expirationDate, balance);
     }
+
 
     private boolean isUserValid() {
         boolean isValid = true;
 
         String username = binding.usernameEt.getText().toString().trim();
-        if (!Validator.isEmailValid(username)) {
+        if (username.isEmpty()) {
+            binding.usernameEt.setError(getString(R.string.error_empty_field));
+            isValid = false;
+        } else if (!Validator.isEmailValid(username)) {
             binding.usernameEt.setError(getString(R.string.error_invalid_username));
             isValid = false;
         }
 
         String password = binding.passwordEt.getText().toString().trim();
-        if (!Validator.isPasswordValid(password)) {
+        if (password.isEmpty()) {
+            binding.passwordEt.setError(getString(R.string.error_empty_field));
+            isValid = false;
+        } else if (!Validator.isPasswordValid(password)) {
             binding.passwordEt.setError(getString(R.string.error_invalid_password));
             isValid = false;
         }
 
         String confirmPassword = binding.confirmPasswordEt.getText().toString().trim();
-        if (!Validator.isPasswordValid(confirmPassword)) {
-            binding.confirmPasswordEt.setError(getString(R.string.error_invalid_password));
+        if (confirmPassword.isEmpty()) {
+            binding.confirmPasswordEt.setError(getString(R.string.error_empty_field));
             isValid = false;
         } else if (!password.equals(confirmPassword)) {
             binding.confirmPasswordEt.setError(getString(R.string.error_unique_password));
@@ -115,25 +112,64 @@ public class SignUpActivity extends AppCompatActivity {
 
         String ageStr = binding.ageEt.getText().toString().trim();
         if (ageStr.isEmpty()) {
-            binding.ageEt.setError(getString(R.string.error_invalid_age));
+            binding.ageEt.setError(getString(R.string.error_empty_field));
             isValid = false;
         } else {
             try {
-                Integer.parseInt(ageStr);
+                int age = Integer.parseInt(ageStr);
+                if (age <= 0) {
+                    binding.ageEt.setError(getString(R.string.error_invalid_age));
+                    isValid = false;
+                }
             } catch (NumberFormatException e) {
                 binding.ageEt.setError(getString(R.string.error_invalid_age));
                 isValid = false;
             }
         }
-        String numberStr = binding.numberEt.getText().toString().trim();
-        if (numberStr.isEmpty()) {
+
+        String phoneNumStr = binding.numberEt.getText().toString().trim();
+        if (phoneNumStr.isEmpty()) {
+            binding.numberEt.setError(getString(R.string.error_empty_field));
+            isValid = false;
+        } else if (!Validator.isPhoneNumberValid(phoneNumStr)) {
             binding.numberEt.setError(getString(R.string.error_invalid_number));
+            isValid = false;
+        }
+
+        String cardNumStr = binding.cardNumberEt.getText().toString().trim();
+        if (cardNumStr.isEmpty()) {
+            binding.cardNumberEt.setError(getString(R.string.error_empty_field));
+            isValid = false;
+        } else if (!Validator.isCardNumberValid(cardNumStr)) {
+            binding.cardNumberEt.setError(getString(R.string.error_invalid_number));
+            isValid = false;
+        }
+
+        String cvv2Str = binding.cvv2Et.getText().toString().trim();
+        if (cvv2Str.isEmpty()) {
+            binding.cvv2Et.setError(getString(R.string.error_empty_field));
+            isValid = false;
+        } else if (!Validator.isCVV2Valid(cvv2Str)) {
+            binding.cvv2Et.setError(getString(R.string.error_invalid_cvv2));
+            isValid = false;
+        }
+
+        String expire = binding.expireDateEt.getText().toString().trim();
+        if (expire.isEmpty()) {
+            binding.expireDateEt.setError(getString(R.string.error_empty_field));
             isValid = false;
         } else {
             try {
-                Integer.parseInt(numberStr);
-            } catch (NumberFormatException e) {
-                binding.numberEt.setError(getString(R.string.error_invalid_number));
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yy/MM/dd");
+                dateFormat.setLenient(false);
+                Date expirationDate = dateFormat.parse(expire);
+
+                if (expirationDate.before(new Date())) {
+                    binding.expireDateEt.setError(getString(R.string.error_expired_date));
+                    isValid = false;
+                }
+            } catch (ParseException e) {
+                binding.expireDateEt.setError(getString(R.string.error_invalid_date_format));
                 isValid = false;
             }
         }
@@ -142,6 +178,8 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void saveInSharedPreferences() {
+        preferencesManager.putObj(PREF_KEY_CURRENT_USER, user);
+        preferencesManager.put(PREF_KEY_ID,user.getId());
         preferencesManager.put(PREF_KEY_USERNAME, user.getUsername());
         preferencesManager.put(PREF_KEY_PASSWORD, user.getPassword());
         preferencesManager.put(PREF_KEY_AGE, user.getAge());
@@ -151,6 +189,7 @@ public class SignUpActivity extends AppCompatActivity {
         preferencesManager.put(PREF_KEY_CVV2, user.getCvv2());
         preferencesManager.put(PREF_KEY_EXPIRATION_DATE, new SimpleDateFormat("yy/MM/dd").format(user.getExpirationDate()));
         preferencesManager.put(PREF_KEY_CURRENT_BALANCE, user.getCurrentBalance());
+        preferencesManager.put(PREF_KEY_TOKEN,user.getSessionToken());
     }
 
     private void removeErrors() {
@@ -162,20 +201,24 @@ public class SignUpActivity extends AppCompatActivity {
     private void signUpUser() {
         removeErrors();
         user = createUserObjectFromInputs();
-        UserServiceImpl userServiceImpl = new UserServiceImpl();
-        userServiceImpl.signupUser(user, new ResultListener<User>() {
-            @Override
-            public void onSuccess(User user) {
-                showToastMessage("User signed up successfully");
-                finish();
-            }
+        if (isUserValid()) {
+            UserServiceImpl userServiceImpl = new UserServiceImpl();
+            userServiceImpl.signupUser(user, new ResultListener<User>() {
+                @Override
+                public void onSuccess(User user) {
+                    showToastMessage("User signed up successfully");
+                    saveInSharedPreferences();
+                    finish();
+                }
 
-            @Override
-            public void onError(Throwable throwable) {
-                showToastMessage(throwable.getMessage());
+                @Override
+                public void onError(Throwable throwable) {
+                    showToastMessage(throwable.getMessage());
 
-            }
-        });
+                }
+            });
+        }
+
     }
 
     private void setListeners() {

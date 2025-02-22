@@ -9,11 +9,13 @@ import static com.example.atm.preferences.PreferencesManager.PREF_KEY_EXPIRATION
 import static com.example.atm.preferences.PreferencesManager.PREF_KEY_IS_LOGIN;
 import static com.example.atm.preferences.PreferencesManager.PREF_KEY_PASSWORD;
 import static com.example.atm.preferences.PreferencesManager.PREF_KEY_PHONE_NUMBER;
+import static com.example.atm.preferences.PreferencesManager.PREF_KEY_TOKEN;
 import static com.example.atm.preferences.PreferencesManager.PREF_KEY_USERNAME;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -39,7 +41,6 @@ public class LoginActivity extends AppCompatActivity {
     private UserServiceImpl userService;
     private ActivityLoginBinding binding;
     private PreferencesManager preferencesManager;
-
     private ExecutorService executorService;
 
 
@@ -98,13 +99,14 @@ public class LoginActivity extends AppCompatActivity {
     private void loginIfAccountExist(String username, String password) {
         showDialog();
 
-        int savedAge = preferencesManager.get(PREF_KEY_AGE, 0);
+        Integer savedAge = preferencesManager.get(PREF_KEY_AGE, 0);
         String savedPhoneNumber = preferencesManager.get(PREF_KEY_PHONE_NUMBER, "");
         String savedCardNumber = preferencesManager.get(PREF_KEY_CARD_NUMBER, "");
         String savedAccountNumber = preferencesManager.get(PREF_KEY_ACCOUNT_NUMBER, "");
         String savedCvv2 = preferencesManager.get(PREF_KEY_CVV2, "");
         String savedExpirationDateStr = preferencesManager.get(PREF_KEY_EXPIRATION_DATE, "");
-        Double savedCurrentBalance = preferencesManager.get(PREF_KEY_CURRENT_BALANCE, 0.0);
+        String savedTokenStr = preferencesManager.get(PREF_KEY_TOKEN, "");
+        Long savedCurrentBalance = preferencesManager.get(PREF_KEY_CURRENT_BALANCE, 0L);
 
         Date savedExpirationDate = null;
         try {
@@ -117,19 +119,15 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-//        if (savedExpirationDate == null || savedCurrentBalance == null) {
-//            showToastMessage("Error: Invalid user data");
-//            return;
-//        }
-
         if (!isInputValid(username, password)) {
             return;
         }
+        int age = Integer.parseInt(String.valueOf(savedAge));
 
         User inputUser = new User(
                 username,
                 password,
-                savedAge,
+                age,
                 savedPhoneNumber,
                 savedAccountNumber,
                 savedCardNumber,
@@ -141,9 +139,12 @@ public class LoginActivity extends AppCompatActivity {
         userService.loginUser(inputUser, new ResultListener<User>() {
             @Override
             public void onSuccess(User user) {
-                insertUserToDb(user);
+
                 preferencesManager.put(PREF_KEY_USERNAME, username);
                 preferencesManager.put(PREF_KEY_PASSWORD, password);
+                preferencesManager.put(PREF_KEY_TOKEN, user.getSessionToken());
+                preferencesManager.putObj(PREF_KEY_CURRENT_USER, user);
+                insertUserToDb(user);
             }
 
             @Override

@@ -4,15 +4,15 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import android.content.SharedPreferences;
 
+import com.example.atm.ui.adapter.RecentAdapter;
 import com.google.gson.Gson;
-
-import java.util.Date;
 
 public class PreferencesManager {
 
     private static final String PREF_FILE_NAME = "com.example.atm";
     public static final String PREF_KEY_USERNAME = "username";
     public static final String PREF_KEY_PASSWORD = "password";
+    public static final String PREF_KEY_PREVIEW = "preview";
     public static final String PREF_KEY_AGE = "age";
     public static final String PREF_KEY_PHONE_NUMBER = "phoneNumber";
     public static final String PREF_KEY_CARD_NUMBER = "cardNumber";
@@ -20,14 +20,18 @@ public class PreferencesManager {
     public static final String PREF_KEY_CVV2 = "Cvv2";
     public static final String PREF_KEY_EXPIRATION_DATE = "expirationDate";
     public static final String PREF_KEY_CURRENT_BALANCE = "balance";
-
+    public static final String PREF_KEY_ID = "id";
+    public static final String PREF_KEY_CURRENT_USER = "current_user";
     public static final String PREF_KEY_IS_LOGIN = "is_login";
+    public static final String PREF_KEY_TOKEN= "session_token";
+
 
     public static PreferencesManager preferencesManager;
 
     private final SharedPreferences sharedPreferences;
 
     private final Gson gson = new Gson();
+
 
     private PreferencesManager(@NonNull Context context) {
         sharedPreferences = context.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE);

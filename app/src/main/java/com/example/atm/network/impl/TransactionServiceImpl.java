@@ -1,5 +1,7 @@
 package com.example.atm.network.impl;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.example.atm.R;
@@ -36,7 +38,6 @@ public class TransactionServiceImpl {
                         return;
                     }
                     transaction.setId(received.getId());
-//                    report.setPublisherId(received.getPublisherId());
                     resultListener.onSuccess(transaction);
                     return;
                 }
@@ -54,5 +55,28 @@ public class TransactionServiceImpl {
             }
         });
 
+    }
+    public void deleteTransaction(Transaction transaction, ResultListener<Transaction> resultListener) {
+        Call<Transaction> call = transactionService.deleteTransaction(transaction.getId());
+        call.enqueue(new Callback<Transaction>() {
+            @Override
+            public void onResponse(@NonNull Call<Transaction> call, @NonNull Response<Transaction> response) {
+                if (response.isSuccessful()) {
+                    resultListener.onSuccess(transaction);
+                    return;
+                }
+                ServerError serverError = networkHelper.convertResponseToError(response, ServerError.class);
+                if (serverError == null) {
+                    networkHelper.showNetworkError(resultListener, R.string.network_json_error);
+                    return;
+                }
+                resultListener.onError(new Error(serverError.getError()));
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Transaction> call, @NonNull Throwable throwable) {
+                networkHelper.showNetworkError(resultListener, R.string.network_general_error);
+            }
+        });
     }
 }

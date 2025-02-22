@@ -24,7 +24,6 @@ public class InsertTransactionRunnable implements Runnable{
         long id = dbManager.transactionDao().insertTransaction(transaction);
 
         if (id > 0) {
-//            user.setId(id);
             resultListener.onSuccess(transaction);
         } else {
             resultListener.onError(new Error("Transaction insert Failed"));

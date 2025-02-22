@@ -8,11 +8,9 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -30,6 +28,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class AddTransactionActivity extends AppCompatActivity {
     private ActivityAddTransactionBinding binding;
@@ -46,6 +45,7 @@ public class AddTransactionActivity extends AppCompatActivity {
         setContentView(view);
         setUpToolbar();
         setListeners();
+        executorService = Executors.newSingleThreadExecutor();
         preferencesManager = PreferencesManager.getInstance(this);
         String transactionType = getIntent().getStringExtra("transaction_type");
 
@@ -55,7 +55,6 @@ public class AddTransactionActivity extends AppCompatActivity {
     }
 
     private void setUpToolbar() {
-
         setSupportActionBar(binding.toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar == null) {
@@ -67,43 +66,49 @@ public class AddTransactionActivity extends AppCompatActivity {
         actionBar.setHomeAsUpIndicator(backDrawable);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     private void configureFormForTransactionType(String transactionType) {
         switch (transactionType) {
             case "Withdraw":
                 binding.passwordEt.setVisibility(View.VISIBLE);
                 binding.originAccountEt.setVisibility(View.GONE);
                 binding.destinationCardEt.setVisibility(View.GONE);
+                binding.destinationCardTv.setVisibility(View.GONE);
+                binding.cvv2Tv.setVisibility(View.GONE);
+                binding.expirationDateTv.setVisibility(View.GONE);
+                binding.originAccountTv.setVisibility(View.GONE);
                 binding.cvv2Et.setVisibility(View.GONE);
                 binding.expirationDateEt.setVisibility(View.GONE);
                 break;
 
             case "CTC":
                 binding.passwordEt.setVisibility(View.GONE);
+                binding.originAccountTv.setVisibility(View.VISIBLE);
                 binding.originAccountEt.setVisibility(View.VISIBLE);
+                binding.destinationCardTv.setVisibility(View.VISIBLE);
                 binding.destinationCardEt.setVisibility(View.VISIBLE);
                 binding.cvv2Et.setVisibility(View.VISIBLE);
+                binding.passwordTv.setVisibility(View.GONE);
+                binding.expirationDateTv.setVisibility(View.VISIBLE);
                 binding.expirationDateEt.setVisibility(View.VISIBLE);
                 break;
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     private void setListeners() {
-        binding.addBtn.setOnClickListener(v -> onAddClicked());
         binding.saveBtn.setOnClickListener(v -> onSaveClicked());
 
-    }
-
-    private void onAddClicked() {
-        openAddDialog(0);
     }
 
     private void insertTransactionToDb(Transaction transaction) {
@@ -125,37 +130,6 @@ public class AddTransactionActivity extends AppCompatActivity {
         }));
     }
 
-    private void openAddDialog(int position) {
-        View dialogView = getLayoutInflater().inflate(R.layout.dialog_transaction_type, null);
-
-        Spinner spinner = dialogView.findViewById(R.id.spinner_transaction_type);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(getString(R.string.choose_type_transaction));
-        builder.setView(dialogView);
-
-        builder.setPositiveButton(R.string.accept, (dialog, which) -> {
-            String selectedType = spinner.getSelectedItem().toString();
-
-            if (selectedType.equals("Withdraw")) {
-                navigateToAddTransactionForm("Withdraw");
-            } else if (selectedType.equals("CTC")) {
-                navigateToAddTransactionForm("CTC");
-            }
-        });
-
-        builder.setNegativeButton(R.string.cancel, null);
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
-
-    private void navigateToAddTransactionForm(String transactionType) {
-        Intent intent = new Intent(this, AddTransactionActivity.class);
-        intent.putExtra("transaction_type", transactionType);
-        startActivity(intent);
-    }
-
     private void showToastMessage(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
@@ -168,27 +142,67 @@ public class AddTransactionActivity extends AppCompatActivity {
             return;
         }
 
-//      String phoneNumber = binding.destinationCardEt.getText().toString().trim();; e
         String accountNumber = binding.originAccountEt.getText().toString().trim();
-        ;
         String cardNumber = binding.destinationCardEt.getText().toString().trim();
         String cvv2 = binding.cvv2Et.getText().toString().trim();
-        String expirationDateStr = binding.expirationDateEt.getText().toString().trim();
-//        Double Balance = preferencesManager.get(PreferencesManager.PREF_KEY_CURRENT_BALANCE, 0.0); ;
-//        String sessionToken = "USER_SESSION_TOKEN";
+        String enterBalanceStr = binding.balanceEt.getText().toString().trim();
+        String enterPassword = binding.passwordEt.getText().toString().trim();
+        String enterExpire = binding.expirationDateEt.getText().toString().trim();
 
+        Date transactionDate = new Date();
         User currentUser = preferencesManager.getObj(PREF_KEY_CURRENT_USER, User.class);
-        Date expirationDate = null;
-        Double currentBalance = 0.0;
+
+        Long enterBalance = 0L;
+        try {
+            enterBalance = Long.parseLong(enterBalanceStr);
+        } catch (NumberFormatException e) {
+            binding.balanceEt.setError(getString(R.string.error_invalid_balance));
+            return;
+        }
+        Long currentBalance = 0L;
         if (currentUser != null) {
             currentBalance = currentUser.getCurrentBalance();
         }
-        try {
-            @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("yy/MM/dd");
-            expirationDate = dateFormat.parse(expirationDateStr);
-        } catch (ParseException e) {
-            binding.expirationDateEt.setError(getString(R.string.error_invalid_date_format));
+        if (enterBalance > currentBalance) {
+            showToastMessage("Error: Insufficient balance for this transaction");
+            return;
         }
+        if (transactionType.equals("Withdraw")) {
+            String currentPassword = null;
+            if (currentUser != null) {
+                currentPassword = currentUser.getPassword();
+            }
+            if (!currentPassword.equals(enterPassword)) {
+                showToastMessage("Error: Incorrect password");
+                return;
+            }
+        }
+        if (transactionType.equals("CTC")) {
+            Date currentExpire = null;
+            if (currentUser != null) {
+                currentExpire = currentUser.getExpirationDate();
+            }
+            if (!currentExpire.equals(enterExpire)) {
+                showToastMessage("Error: Incorrect expire");
+                return;
+            }
+        }
+        if (transactionType.equals("Withdraw")) {
+        String currentCvv2 = null;
+        if (currentUser != null) {
+            currentCvv2 = currentUser.getCvv2();
+        }
+        if (!currentCvv2.equals(cvv2)) {
+            showToastMessage("Error: Incorrect cvv2");
+            return;
+        }
+}
+        Date savedExpirationDate = null;
+        if (currentUser != null) {
+            savedExpirationDate = currentUser.getExpirationDate();
+        }
+
+
         assert currentUser != null;
         Transaction transaction = new Transaction(
                 currentUser.getPhoneNumber(),
@@ -196,17 +210,18 @@ public class AddTransactionActivity extends AppCompatActivity {
                 cardNumber,
                 currentUser.getId(),
                 cvv2,
-                expirationDate,
+                savedExpirationDate,
                 currentBalance,
                 currentUser.getSessionToken(),
-                transactionType
+                transactionType,
+                transactionDate
+
         );
 
         TransactionServiceImpl transactionService = new TransactionServiceImpl();
         transactionService.insertTransaction(transaction, new ResultListener<Transaction>() {
             @Override
             public void onSuccess(Transaction transaction) {
-//                showToastMessage("Transaction saved successfully");
                 insertTransactionToDb(transaction);
                 finish();
             }
@@ -227,14 +242,21 @@ public class AddTransactionActivity extends AppCompatActivity {
 
     private boolean validateInputs(String transactionType) {
         if ("Withdraw".equals(transactionType)) {
-            String balance = binding.balanceEt.getText().toString().trim();
             String password = binding.passwordEt.getText().toString().trim();
-            return !password.isEmpty()&& !balance.isEmpty();
+            return !password.isEmpty();
         } else if ("CTC".equals(transactionType)) {
             String originAccount = binding.originAccountEt.getText().toString().trim();
             String destinationCard = binding.destinationCardEt.getText().toString().trim();
             String cvv2 = binding.cvv2Et.getText().toString().trim();
             String expirationDate = binding.expirationDateEt.getText().toString().trim();
+
+            try {
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("yy/MM/dd");
+                dateFormat.parse(expirationDate);
+            } catch (ParseException e) {
+                binding.expirationDateEt.setError(getString(R.string.error_invalid_date_format));
+                return false;
+            }
 
             return !originAccount.isEmpty() && !destinationCard.isEmpty() && !cvv2.isEmpty() && !expirationDate.isEmpty();
         }

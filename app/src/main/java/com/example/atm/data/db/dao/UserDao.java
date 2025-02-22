@@ -19,5 +19,7 @@ public interface UserDao {
 
 
     @Query("SELECT currentBalance FROM User WHERE username = :username")
-    Double getCurrentBalanceByUsername(String username);
+    Long getCurrentBalanceByUsername(String username);
+
+
 }

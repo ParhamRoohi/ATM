@@ -280,6 +280,7 @@
         android:layout_marginBottom="16dp"
         android:padding="15dp"
         android:text="@string/sign_up"
+        android:backgroundTint="@color/blue"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

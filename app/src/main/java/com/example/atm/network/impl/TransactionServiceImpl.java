@@ -36,7 +36,6 @@ public class TransactionServiceImpl {
                         return;
                     }
                     transaction.setId(received.getId());
-//                    report.setPublisherId(received.getPublisherId());
                     resultListener.onSuccess(transaction);
                     return;
                 }

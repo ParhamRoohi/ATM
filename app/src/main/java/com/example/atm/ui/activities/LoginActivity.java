@@ -104,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
         String savedAccountNumber = preferencesManager.get(PREF_KEY_ACCOUNT_NUMBER, "");
         String savedCvv2 = preferencesManager.get(PREF_KEY_CVV2, "");
         String savedExpirationDateStr = preferencesManager.get(PREF_KEY_EXPIRATION_DATE, "");
-        Double savedCurrentBalance = preferencesManager.get(PREF_KEY_CURRENT_BALANCE, 0.0);
+        Long savedCurrentBalance = preferencesManager.get(PREF_KEY_CURRENT_BALANCE, 0L);
 
         Date savedExpirationDate = null;
         try {
@@ -117,10 +117,16 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-//        if (savedExpirationDate == null || savedCurrentBalance == null) {
-//            showToastMessage("Error: Invalid user data");
-//            return;
-//        }
+        try {
+            if (!savedExpirationDateStr.isEmpty()) {
+                savedExpirationDate = new SimpleDateFormat("yy/MM/dd").parse(savedExpirationDateStr);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            showToastMessage("Error: Invalid expiration date format");
+            return;
+        }
+
 
         if (!isInputValid(username, password)) {
             return;

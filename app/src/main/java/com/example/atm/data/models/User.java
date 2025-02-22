@@ -29,11 +29,11 @@ public class User implements Serializable, Comparable<User>{
     private String cardNumber;
     private String cvv2;
     private Date expirationDate;
-    private Double currentBalance;
+    private Long currentBalance;
     @ColumnInfo(name = "session_token")
     private String sessionToken;
 
-    public User(@NonNull String id, String username, String password, int age, String phoneNumber,String accountNumber,String cardNumber,String cvv2,Date expirationDate,Double currentBalance) {
+    public User(@NonNull String id, String username, String password, int age, String phoneNumber,String accountNumber,String cardNumber,String cvv2,Date expirationDate,Long currentBalance) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -47,7 +47,7 @@ public class User implements Serializable, Comparable<User>{
     }
 
     @Ignore
-    public User(String username, String password, int age, String phoneNumber,String accountNumber,String cardNumber,String cvv2,Date expirationDate,Double currentBalance) {
+    public User(String username, String password, int age, String phoneNumber,String accountNumber,String cardNumber,String cvv2,Date expirationDate,Long currentBalance) {
         this.username = username;
         this.password = password;
         this.age = age;
@@ -142,11 +142,11 @@ public class User implements Serializable, Comparable<User>{
         this.expirationDate = expirationDate;
     }
 
-    public Double getCurrentBalance() {
+    public Long getCurrentBalance() {
         return currentBalance;
     }
 
-    public void setCurrentBalance(Double currentBalance) {
+    public void setCurrentBalance(Long currentBalance) {
         this.currentBalance = currentBalance;
     }
 

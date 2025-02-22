@@ -13,7 +13,7 @@ import com.example.atm.data.models.Transaction;
 import com.example.atm.data.models.User;
 
 
-    @Database(entities = {User.class, Transaction.class}, version = 1)
+    @Database(entities = {User.class, Transaction.class}, version = 2)
     @TypeConverters({TypeConverter.class})
     public abstract class DbManager extends RoomDatabase {
 

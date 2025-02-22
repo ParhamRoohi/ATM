@@ -1,5 +1,6 @@
 package com.example.atm.ui.activities;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -26,7 +27,7 @@ public class ProfileActivity  extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
         setUpToolbar();
-
+        setupBottomNavigation();
     }
 
     private void setUpToolbar() {
@@ -39,6 +40,25 @@ public class ProfileActivity  extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         Drawable backDrawable = ContextCompat.getDrawable(this, R.drawable.baseline_arrow_back_24);
         actionBar.setHomeAsUpIndicator(backDrawable);
+    }
+    private void onProfileClicked() {
+        Intent intent = new Intent(this, ProfileActivity.class);
+        startActivity(intent);
+    }
+
+    private void onTransactionsClicked() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+    private void setupBottomNavigation() {
+        binding.bottomNavigationView.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.transactions_btn) {
+                onTransactionsClicked();
+                return true;
+            }
+            return false;
+        });
     }
 
     @Override

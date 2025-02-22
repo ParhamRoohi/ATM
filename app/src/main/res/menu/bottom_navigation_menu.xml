@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/navigation_profile"
-        android:title="@string/profile_btn" />
-    <item
-        android:id="@+id/navigation_transactions"
+        android:id="@+id/transactions_btn"
         android:title="@string/transactions_btn" />
+    <item
+        android:id="@+id/profile_btn"
+        android:title="@string/profile_btn" />
+
 </menu>

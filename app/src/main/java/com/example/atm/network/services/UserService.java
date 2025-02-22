@@ -11,7 +11,7 @@ import retrofit2.http.Query;
 
 public interface UserService {
     @POST("/users")
-    @Headers("X-Parse-Revocable-Session: 1")
+    @Headers("X-Parse-Revocable-Session:1")
     Call<User> signupUser(@Body User user);
 
     @GET("/login")

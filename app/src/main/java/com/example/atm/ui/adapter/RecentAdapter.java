@@ -23,12 +23,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class RecentAdapter extends RecyclerView.Adapter<RecentAdapter.ViewHolder> {
-
     private final Context context;
     private final List<Transaction> transactions;
     private final LayoutInflater layoutInflater;
     private RecentAdapterCallback callback;
-
     private ExecutorService executorService;
 
     public RecentAdapter(Context context, RecentAdapterCallback callback) {

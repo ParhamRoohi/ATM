@@ -170,7 +170,7 @@ public class AddTransactionActivity extends AppCompatActivity {
                 "Amount" + amount + "\n" +
                 "OriginCard" + originCard + "\n" +
                 "TransactionType" + transactionType;
-        Intent shareIntent = new Intent(Intent.ACTION_SENDTO);
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
         shareIntent.putExtra(Intent.EXTRA_TEXT, text);
         startActivity(Intent.createChooser(shareIntent, "Share Transaction"));
